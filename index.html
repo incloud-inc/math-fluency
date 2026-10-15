@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Math Fluency — Kuis Kelancaran Berhitung (100% Gratis)</title>
+  <meta name="description" content="Latih kelancaran berhitung cepat dengan kuis interaktif perkalian, penjumlahan, pengurangan, dan pembagian. 100% Gratis tanpa biaya.">
+  <link rel="icon" type="image/png" href="math-fluency.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="desktop-wrapper">
+    <main class="desktop-canvas" id="app-canvas">
+      
+      <!-- ================= 1. DIV BAGIAN QUIZ ================= -->
+      <div class="quiz-container primary-panel" id="quiz-container" aria-label="Bagian Kuis Math Fluency">
+        
+        <!-- Mobile Header Bar (Only visible on mobile screens) -->
+        <header class="mobile-top-bar" aria-label="Kontrol Aplikasi Mobile">
+          <div class="brand-mini">
+            <img src="math-fluency.png" alt="Math Fluency Logo" class="brand-logo-mini">
+            <span class="brand-name">Math Fluency</span>
+          </div>
+          <div class="mobile-controls">
+            <button class="icon-btn" id="btn-sound-mobile" title="Suara Efek (Aktif/Nonaktif)" aria-label="Toggle Efek Suara">
+              <span class="sound-icon" aria-hidden="true">🔊</span>
+            </button>
+            <button class="icon-btn" id="btn-theme-mobile" title="Ganti Mode Terang/Gelap" aria-label="Toggle Mode Tampilan">
+              <span class="theme-icon" aria-hidden="true">🌙</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- ============ SCREEN 1: START SCREEN ============ -->
+        <article class="screen active" id="screen-start" aria-label="Layar Pengaturan Kuis">
+          <header class="brand-hero">
+            <div class="brand-logo-badge">
+              <img src="math-fluency.png" alt="Math Fluency Logo" class="brand-logo-main">
+            </div>
+            <h1 class="app-title">Math Fluency</h1>
+            <p class="app-tagline">Uji kelancaran berhitungmu sebelum waktu habis</p>
+            <div class="free-badge">
+              <span class="free-dot"></span>
+              <span>100% Bebas &amp; Gratis Semua Fitur</span>
+            </div>
+          </header>
+
+          <!-- 1. Pilihan Operasi Matematika -->
+          <section class="setting-card">
+            <h2 class="card-heading">Pilih Jenis Latihan</h2>
+            <div class="choice-grid op-grid" id="op-row" role="radiogroup" aria-label="Jenis Latihan Matematika">
+              <button type="button" class="choice-pill op-pill selected" data-op="mul" role="radio" aria-checked="true" title="Perkalian (✖)" aria-label="Perkalian">
+                <span class="op-glyph">✖</span>
+              </button>
+              <button type="button" class="choice-pill op-pill" data-op="add" role="radio" aria-checked="false" title="Penjumlahan (➕)" aria-label="Penjumlahan">
+                <span class="op-glyph">➕</span>
+              </button>
+              <button type="button" class="choice-pill op-pill" data-op="sub" role="radio" aria-checked="false" title="Pengurangan (➖)" aria-label="Pengurangan">
+                <span class="op-glyph">➖</span>
+              </button>
+              <button type="button" class="choice-pill op-pill" data-op="div" role="radio" aria-checked="false" title="Pembagian (➗)" aria-label="Pembagian">
+                <span class="op-glyph">➗</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- 2. Pilihan Angka Dasar / Tabel & Tingkat Kesulitan -->
+          <section class="setting-card">
+            <div class="card-heading-row">
+              <h2 class="card-heading" id="table-panel-title">Pilih Tabel Perkalian</h2>
+              <div class="heading-actions">
+                <button type="button" class="text-action-btn" id="btn-select-all">Pilih Semua</button>
+                <div class="mode-chip-group">
+                  <button type="button" class="mode-chip selected" id="btn-mode-standard" data-mode="standard" title="Rentang angka 2 sampai 9">Standar (2–9)</button>
+                  <button type="button" class="mode-chip" id="btn-mode-challenge" data-mode="challenge" title="Rentang angka hingga 12">Tantangan (2–12)</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="choice-grid numbers-grid" id="table-row" role="group" aria-label="Pilihan Angka Dasar">
+              <button type="button" class="number-btn selected" data-table="2">2</button>
+              <button type="button" class="number-btn selected" data-table="3">3</button>
+              <button type="button" class="number-btn" data-table="4">4</button>
+              <button type="button" class="number-btn" data-table="5">5</button>
+              <button type="button" class="number-btn" data-table="6">6</button>
+              <button type="button" class="number-btn" data-table="7">7</button>
+              <button type="button" class="number-btn" data-table="8">8</button>
+              <button type="button" class="number-btn" data-table="9">9</button>
+              <button type="button" class="number-btn challenge-num hidden" data-table="10">10</button>
+              <button type="button" class="number-btn challenge-num hidden" data-table="11">11</button>
+              <button type="button" class="number-btn challenge-num hidden" data-table="12">12</button>
+            </div>
+
+            <!-- Durasi & Info Target -->
+            <div class="duration-section">
+              <div class="duration-label-row">
+                <span class="sub-label">Durasi Kuis:</span>
+                <span class="duration-auto-badge">Otomatis mengikuti jumlah pilihan</span>
+              </div>
+              <div class="choice-grid duration-grid" id="duration-row" role="radiogroup" aria-label="Pilihan Durasi">
+                <button type="button" class="duration-pill selected" data-duration="30">30 dtk</button>
+                <button type="button" class="duration-pill" data-duration="60">60 dtk</button>
+                <button type="button" class="duration-pill" data-duration="120">120 dtk</button>
+              </div>
+              <p class="duration-info-text" id="duration-info">
+                2 angka dipilih → durasi 30 detik, target minimal 10 soal.
+              </p>
+            </div>
+
+            <!-- Tombol Aksi Utama -->
+            <button type="button" class="primary-action-btn" id="btn-start">
+              <span>Mulai Kuis</span>
+              <span class="btn-arrow" aria-hidden="true">➔</span>
+            </button>
+            <button type="button" class="secondary-outline-btn mobile-only-btn" id="btn-open-history">
+              <span>📊 Lihat Riwayat Permainan</span>
+            </button>
+          </section>
+
+          <footer class="best-record-banner" id="best-record" aria-live="polite"></footer>
+        </article>
+
+        <!-- ============ SCREEN 2: GAME SCREEN ============ -->
+        <article class="screen" id="screen-game" aria-label="Layar Permainan Kuis">
+          <div class="game-hud">
+            <div class="timer-pill" id="timer-pill" role="timer" aria-live="off">
+              <span class="timer-icon" aria-hidden="true">⏱</span>
+              <span id="timer-text">00:30</span>
+            </div>
+            <div class="hud-meta">
+              <span class="progress-pill" id="stat-progress">Soal ke-1</span>
+              <span class="streak-pill" id="stat-streak">🔥 0 streak</span>
+            </div>
+          </div>
+
+          <!-- Question Card -->
+          <div class="question-card" id="question-card">
+            <div class="expr-display" aria-live="assertive">
+              <span id="num-a">4</span>
+              <span class="op-symbol" id="op-symbol">×</span>
+              <span id="num-b">3</span>
+            </div>
+            <div class="answer-box" id="answer-box" aria-live="polite">
+              <span class="placeholder-dot">?</span>
+            </div>
+          </div>
+
+          <!-- Keypad Ergonomis -->
+          <div class="keypad-container" id="keypad" role="group" aria-label="Papan Tombol Angka">
+            <button type="button" class="key" data-k="1">1</button>
+            <button type="button" class="key" data-k="2">2</button>
+            <button type="button" class="key" data-k="3">3</button>
+            <button type="button" class="key" data-k="4">4</button>
+            <button type="button" class="key" data-k="5">5</button>
+            <button type="button" class="key" data-k="6">6</button>
+            <button type="button" class="key" data-k="7">7</button>
+            <button type="button" class="key" data-k="8">8</button>
+            <button type="button" class="key" data-k="9">9</button>
+            <button type="button" class="key key-back" data-k="back" title="Hapus Satu Angka" aria-label="Hapus Angka">⌫</button>
+            <button type="button" class="key" data-k="0">0</button>
+            <button type="button" class="key key-stop" data-k="stop" title="Akhiri Kuis Sekarang" aria-label="Selesai Kuis">Selesai</button>
+          </div>
+        </article>
+
+        <!-- ============ SCREEN 3: RESULT SCREEN ============ -->
+        <article class="screen" id="screen-result" aria-label="Layar Hasil Kuis">
+          <div class="scrollable-screen-content">
+            <header class="result-hero">
+              <div class="result-badge-icon" id="result-badge-icon">🎉</div>
+              <h1 class="result-title">Hasil Kuis</h1>
+              <p class="result-score-summary" id="result-score"></p>
+            </header>
+
+            <!-- Dual Fluency Cards -->
+            <div class="fluency-cards-row">
+              <div class="fluency-score-card card-f1">
+                <span class="card-badge">Formula 1</span>
+                <h3 class="card-title">Math Fluency</h3>
+                <div class="big-score" id="fluency-number">0.00</div>
+                <div class="score-sub">Indeks Kategorikal (0–100)</div>
+              </div>
+
+              <div class="fluency-score-card card-f2">
+                <span class="card-badge">Formula 2</span>
+                <h3 class="card-title">Waktu Kontinu</h3>
+                <div class="big-score" id="fluency-number-2">0.00</div>
+                <div class="score-sub">Reaksi Logaritmik (0–100)</div>
+              </div>
+            </div>
+
+            <!-- Breakdown 5 Kategori -->
+            <section class="breakdown-container">
+              <h3 class="breakdown-title">Rincian Kecepatan Jawab</h3>
+              
+              <div class="category-block cat-lancar">
+                <div class="cat-head">
+                  <span class="cat-icon">⚡</span>
+                  <span class="cat-name">Lancar (&lt; 2.5 detik)</span>
+                  <span class="cat-count-badge" id="count-lancar">0</span>
+                </div>
+                <div class="cat-body" id="cat-lancar"></div>
+              </div>
+
+              <div class="category-block cat-normal">
+                <div class="cat-head">
+                  <span class="cat-icon">🙂</span>
+                  <span class="cat-name">Normal (2.5 – 4.0 detik)</span>
+                  <span class="cat-count-badge" id="count-normal">0</span>
+                </div>
+                <div class="cat-body" id="cat-normal"></div>
+              </div>
+
+              <div class="category-block cat-cukup-lambat">
+                <div class="cat-head">
+                  <span class="cat-icon">🙃</span>
+                  <span class="cat-name">Cukup Lambat (4.0 – 6.0 detik)</span>
+                  <span class="cat-count-badge" id="count-cukup-lambat">0</span>
+                </div>
+                <div class="cat-body" id="cat-cukup-lambat"></div>
+              </div>
+
+              <div class="category-block cat-lambat">
+                <div class="cat-head">
+                  <span class="cat-icon">🐢</span>
+                  <span class="cat-name">Lambat (&gt; 6.0 detik)</span>
+                  <span class="cat-count-badge" id="count-lambat">0</span>
+                </div>
+                <div class="cat-body" id="cat-lambat"></div>
+              </div>
+
+              <div class="category-block cat-salah">
+                <div class="cat-head">
+                  <span class="cat-icon">❌</span>
+                  <span class="cat-name">Jawaban Salah / Tak Terjawab</span>
+                  <span class="cat-count-badge" id="count-salah">0</span>
+                </div>
+                <div class="cat-body" id="cat-salah"></div>
+              </div>
+            </section>
+
+            <!-- Result Screen Action Buttons -->
+            <div class="result-actions">
+              <button type="button" class="primary-action-btn" id="btn-again">
+                <span>Mulai Lagi</span>
+                <span class="btn-arrow" aria-hidden="true">↺</span>
+              </button>
+              <button type="button" class="secondary-outline-btn mobile-only-btn" id="btn-open-history-2">
+                <span>📊 Lihat Riwayat Permainan</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ SCREEN 4: HISTORY DASHBOARD (Mobile & Fullscreen Modal) ============ -->
+        <article class="screen" id="screen-history" aria-label="Layar Riwayat Permainan">
+          <div class="scrollable-screen-content">
+            <header class="result-hero compact-hero">
+              <h1 class="result-title">Riwayat Permainan</h1>
+              <p class="result-score-summary" id="history-subtitle">Catatan 30 permainan terakhir</p>
+            </header>
+
+            <!-- Filter Operasi -->
+            <div class="choice-grid history-filter-grid" id="history-filter-row" role="radiogroup" aria-label="Filter Riwayat Operasi">
+              <button type="button" class="filter-pill selected" data-filter="all">Semua</button>
+              <button type="button" class="filter-pill" data-filter="mul">✖ Kali</button>
+              <button type="button" class="filter-pill" data-filter="add">➕ Tambah</button>
+              <button type="button" class="filter-pill" data-filter="sub">➖ Kurang</button>
+              <button type="button" class="filter-pill" data-filter="div">➗ Bagi</button>
+            </div>
+
+            <!-- Grafik Perkembangan -->
+            <div class="chart-box">
+              <div class="chart-header">
+                <h3 class="chart-title">Grafik Tren Math Fluency</h3>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-dot dot-f1"></span> Formula 1</span>
+                  <span class="legend-item"><span class="legend-dot dot-f2"></span> Formula 2</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper" id="chart-container-mobile"></div>
+            </div>
+
+            <!-- Rata-rata Skor -->
+            <div class="avg-box" id="avg-card-mobile" style="display:none;">
+              <span class="avg-title">Rata-rata Skor Filter Ini</span>
+              <div class="avg-values">
+                <div class="avg-item">
+                  <span class="avg-score" id="avg-f1-mobile">0.00</span>
+                  <span class="avg-name">Formula 1</span>
+                </div>
+                <div class="avg-divider"></div>
+                <div class="avg-item">
+                  <span class="avg-score" id="avg-f2-mobile">0.00</span>
+                  <span class="avg-name">Formula 2</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- List Item Riwayat -->
+            <div class="history-list-group" id="history-list-mobile"></div>
+
+            <div class="history-actions">
+              <button type="button" class="primary-action-btn" id="btn-history-back">
+                <span>Kembali ke Kuis</span>
+              </button>
+              <button type="button" class="danger-outline-btn" id="btn-history-clear">
+                <span>Hapus Semua Riwayat</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- ================= 2. DIV BAGIAN LIVE DASHBOARD ================= -->
+      <div class="dashboard-container companion-panel" id="dashboard-container" aria-label="Bagian Live Dashboard dan Statistik">
+        
+        <!-- Desktop Header & Quick Controls -->
+        <div class="companion-top-bar">
+          <div class="companion-brand">
+            <img src="math-fluency.png" alt="" class="brand-logo-small">
+            <span class="companion-title">Live Dashboard</span>
+          </div>
+          <div class="companion-controls">
+            <button class="icon-btn" id="btn-sound-desktop" title="Suara Efek (Aktif/Nonaktif)" aria-label="Toggle Efek Suara">
+              <span class="sound-icon" aria-hidden="true">🔊</span>
+            </button>
+            <button class="icon-btn" id="btn-theme-desktop" title="Ganti Mode Terang/Gelap" aria-label="Toggle Mode Tampilan">
+              <span class="theme-icon" aria-hidden="true">🌙</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="companion-scroll-area">
+          
+          <!-- Rekor Terbaik 4 Operasi -->
+          <section class="companion-section">
+            <h3 class="section-title">Rekor Terbaik Personal</h3>
+            <div class="best-records-grid">
+              <div class="record-tile" data-op="mul">
+                <div class="tile-head">
+                  <span class="tile-glyph">✖</span>
+                  <span class="tile-name">Perkalian</span>
+                </div>
+                <div class="tile-val" id="best-val-mul">—</div>
+                <div class="tile-sub" id="best-sub-mul">Belum ada rekor</div>
+              </div>
+
+              <div class="record-tile" data-op="add">
+                <div class="tile-head">
+                  <span class="tile-glyph">➕</span>
+                  <span class="tile-name">Penjumlahan</span>
+                </div>
+                <div class="tile-val" id="best-val-add">—</div>
+                <div class="tile-sub" id="best-sub-add">Belum ada rekor</div>
+              </div>
+
+              <div class="record-tile" data-op="sub">
+                <div class="tile-head">
+                  <span class="tile-glyph">➖</span>
+                  <span class="tile-name">Pengurangan</span>
+                </div>
+                <div class="tile-val" id="best-val-sub">—</div>
+                <div class="tile-sub" id="best-sub-sub">Belum ada rekor</div>
+              </div>
+
+              <div class="record-tile" data-op="div">
+                <div class="tile-head">
+                  <span class="tile-glyph">➗</span>
+                  <span class="tile-name">Pembagian</span>
+                </div>
+                <div class="tile-val" id="best-val-div">—</div>
+                <div class="tile-sub" id="best-sub-div">Belum ada rekor</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grafik Perkembangan Desktop -->
+          <section class="companion-section">
+            <div class="chart-header">
+              <h3 class="section-title">Tren Perkembangan (Formula 1 &amp; 2)</h3>
+              <div class="chart-legend">
+                <span class="legend-item"><span class="legend-dot dot-f1"></span> F1</span>
+                <span class="legend-item"><span class="legend-dot dot-f2"></span> F2</span>
+              </div>
+            </div>
+            <div class="chart-canvas-wrapper" id="chart-container-desktop"></div>
+          </section>
+
+          <!-- Panduan Math Fluency Singkat -->
+          <section class="companion-section info-card">
+            <h4 class="info-title">💡 Apa itu Math Fluency?</h4>
+            <p class="info-desc">
+              Kelancaran berhitung bukan sekadar benar atau salah, melainkan penguasaan otomatisasi kognitif (menjawab tepat dalam &lt; 2.5 detik tanpa berpikir panjang).
+            </p>
+            <div class="info-pills">
+              <span class="speed-badge fast">&lt; 2.5s Lancar</span>
+              <span class="speed-badge medium">2.5–4s Normal</span>
+              <span class="speed-badge slow">&gt; 4s Lambat</span>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
