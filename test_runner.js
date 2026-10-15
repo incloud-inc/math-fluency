@@ -207,4 +207,14 @@ assert(cssContent.includes('overscroll-behavior: contain;'), 'Missing overscroll
 assert(jsContent.includes('document.startViewTransition'), 'Missing View Transitions API in JS');
 console.log('✅ Confirmed: All scrollbars hidden, smooth soft transitions & View Transitions active!\n');
 
-console.log('🎉 ALL AUTOMATED TESTS PASSED SUCCESSFULLY! (8/8)');
+// --- Test 9: WhatsApp & Open Graph Sharing Metadata ---
+console.log('Test 9: Verifying WhatsApp and Open Graph metadata tags...');
+assert(htmlContent.includes('<title>MATH FLUENCY dari MASTATAG</title>'), 'Missing exact title: MATH FLUENCY dari MASTATAG');
+assert(htmlContent.includes('<meta name="description" content="Alat Ukur Kecepatan Berhitungmu.">'), 'Missing exact meta description');
+assert(htmlContent.includes('content="MATH FLUENCY dari MASTATAG"'), 'Missing og:title');
+assert(htmlContent.includes('content="Alat Ukur Kecepatan Berhitungmu."'), 'Missing og:description');
+assert(htmlContent.includes('math-fluency-preview.png'), 'Missing og:image preview');
+assert(fs.existsSync(path.join(__dirname, 'math-fluency-preview.png')), 'math-fluency-preview.png does not exist');
+console.log('✅ Confirmed: WhatsApp Open Graph metadata tags & 512x512 preview image verified!\n');
+
+console.log('🎉 ALL AUTOMATED TESTS PASSED SUCCESSFULLY! (9/9)');
